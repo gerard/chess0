@@ -44,6 +44,7 @@
 #include <algorithm>
 #include <string>
 #include <cctype>
+#include <cstring>
 #include "app.h"
 #include "board.h"
 #include "move.h"
@@ -226,7 +227,7 @@ int startApp(int mode)
             board.moveBufLen[0] = 0;
             board.moveBufLen[1] = movegen(board.moveBufLen[0]);
             validMoves.clear();
-            for (i = board.moveBufLen[0]; i < board.moveBufLen[1]; i++)
+            for (auto i = board.moveBufLen[0]; i < board.moveBufLen[1]; i++)
             {
                 makeMove(board.moveBuffer[i]);
                 if (isOtherKingAttacked())

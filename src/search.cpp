@@ -46,6 +46,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <iomanip>
+#include <cinttypes>
 #include <unordered_map>
 #include "definitions.h" 
 #include "extglobals.h" 
@@ -543,7 +544,7 @@ bool Board::isEndOfgame(int &legalmoves, Move &singlemove)
     legalmoves = 0;
     moveBufLen[0] = 0;
     moveBufLen[1] = movegen(moveBufLen[0]);
-    for (i = moveBufLen[0]; i < moveBufLen[1]; i++)
+    for (auto i = moveBufLen[0]; i < moveBufLen[1]; i++)
     {
         makeMove(moveBuffer[i]);
         if (!isOtherKingAttacked())
@@ -676,17 +677,17 @@ void mstostring(uint64_t dt, char *timestring)
         hh = dt/3600000;
         mm = (dt - 3600000*hh)/60000;
         ss = (dt - 3600000*hh - 60000*mm)/1000;
-        sprintf(timestring, "%02llu:%01llu:%02llu", hh, mm, ss);
+        sprintf(timestring, "%02" PRIu64 ":%01" PRIu64 ":%02" PRIu64 "", hh, mm, ss);
     }
     else if (dt > 60000) 
     {      
         mm = dt/60000;
         ss = (dt - 60000*mm)/1000;
-        sprintf(timestring, "%02llu:%02llu", mm, ss);
+        sprintf(timestring, "%02" PRIu64 ":%02" PRIu64 "", mm, ss);
     }
     else if (dt > 10000)        sprintf(timestring, "%6.1f%s", float(dt/1000.0), "s");
     else if (dt > 1000)         sprintf(timestring, "%6.2f%s", float(dt/1000.0), "s");
-    else if (dt > 0)            sprintf(timestring, "%5llums", dt);
+    else if (dt > 0)            sprintf(timestring, "%5" PRIu64 "ms", dt);
     else                        sprintf(timestring, "0ms");
 
     return;
